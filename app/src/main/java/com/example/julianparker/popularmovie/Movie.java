@@ -1,8 +1,5 @@
 package com.example.julianparker.popularmovie;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class Movie  {
     private String title;
     private String poster;
@@ -24,7 +21,7 @@ public class Movie  {
     }
 
     public String getPoster() {
-        return "http://i.imgur.com/DvpvklR.png";
+      return poster;
     }
 
     public void setPoster(String poster) {

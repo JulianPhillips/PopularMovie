@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
@@ -43,65 +44,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder>
-    {
-        private List<Movie> mMovieList;
-        private LayoutInflater mInflater;
-        private Context mContext;
-
-        public MoviesAdapter(Context context, ArrayList<Movie> MovieArrayList)
-        {
-            this.mContext = context;
-            this.mInflater = LayoutInflater.from(context);
-            this.mMovieList = MovieArrayList;
-        }
-
-        @Override
-        public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View view = mInflater.inflate(R.layout.rows_of_movie, parent, false);
-            MovieViewHolder viewHolder = new MovieViewHolder(view);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(MovieViewHolder holder, int position)
-
-        {
-            Movie movie = mMovieList.get(position);
-
-            // This is how we use Picasso to load images from the internet.
-            Picasso.get().load(movie.getPoster())
-                    .placeholder(R.color.colorAccent)
-                    .into(holder.imageView);
-        }
-
-        @Override
-        public int getItemCount()
-        {
-            return (mMovieList == null) ? 0 : mMovieList.size();
-        }
-
-        public void setMovieList(ArrayList<Movie> moviesList)
-        {
-            this.mMovieList.clear();
-            this.mMovieList.addAll(moviesList);
-            // The adapter needs to know that the data has changed. If we don't call this, app will crash.
-            notifyDataSetChanged();
-        }
-    }
-
-    public static class MovieViewHolder extends RecyclerView.ViewHolder
-    {
-    public ImageView imageView;
-
-        public MovieViewHolder(View itemView)
-        {
-            super(itemView);
-            imageView =  itemView.findViewById(R.id.imageView);
-        }
-    }
 
      @BindView(R.id.toolbar) Toolbar toolbar;
     private ArrayList<Movie> MoviesList = new ArrayList<>();
@@ -147,7 +89,8 @@ public class MainActivity extends AppCompatActivity
                 List<MovieResults.ResultsBean> listOfMovies = results.getResults();
                for(int i =0; i<listOfMovies.size(); i++){
 
-                   Movie newMovie = new Movie(listOfMovies.get(i).getTitle(), listOfMovies.get(i).getPoster_path(), listOfMovies.get(i).getOverview(), listOfMovies.get(i).getBackdrop_path());
+                   Movie newMovie = new  Movie(listOfMovies.get(i).getTitle(), listOfMovies.get(i).getPoster_path(), listOfMovies.get(i).getOverview(), listOfMovies.get(i).getBackdrop_path());
+
                     MoviesList.add(newMovie);
                }
 
@@ -160,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, getSpan());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         MovieScreenRv.setLayoutManager(layoutManager);
         MovieScreenRv.setHasFixedSize(true);
         mAdapter = new MoviesAdapter(this,MoviesList);
