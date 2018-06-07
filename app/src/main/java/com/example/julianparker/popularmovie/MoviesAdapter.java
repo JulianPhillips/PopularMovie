@@ -1,11 +1,13 @@
 package com.example.julianparker.popularmovie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,10 +39,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public void onBindViewHolder(MovieViewHolder holder, int position)
 
     {
-        Movie movie = mMovieList.get(position);
+
 
         // This is how we use Picasso to load images from the internet.
-        Picasso.get().load(movie.getPoster())
+        Picasso.get().load(mMovieList.get(position).getPoster())
                 .placeholder(R.color.colorAccent)
                 .into(holder.imageView);
     }
@@ -48,7 +50,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public int getItemCount()
     {
-        return (mMovieList == null) ? 0 : mMovieList.size();
+        return  mMovieList.size();
     }
 
     public void setMovieList(ArrayList<Movie> moviesList)
@@ -58,14 +60,29 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         notifyDataSetChanged();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder
+
+
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public ImageView imageView;
 
         public MovieViewHolder(View itemView)
         {
             super(itemView);
+            itemView.setOnClickListener(this);
             imageView =  itemView.findViewById(R.id.RowsOfMoviesImage);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            Intent intent  = new Intent(mContext, DetailsActivity.class);
+            intent.putExtra("POSTERURL", mMovieList.get(getAdapterPosition()).getPoster());
+            intent.putExtra("TITLE", mMovieList.get(getAdapterPosition()).getTitle());
+            intent.putExtra("DESCRIPTION",mMovieList.get(getAdapterPosition()).getDescription());
+            intent.putExtra("VOTERAVG", mMovieList.get(getAdapterPosition()).getVoteAverage());
+            intent.putExtra("RELEASEDATE", mMovieList.get(getAdapterPosition()).getReleaseDate());
+            mContext.startActivity(intent);
         }
     }
 }

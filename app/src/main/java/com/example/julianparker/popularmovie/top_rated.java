@@ -1,17 +1,12 @@
 package com.example.julianparker.popularmovie;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,15 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,23 +28,23 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity
+public class top_rated extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-
-     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
     private ArrayList<Movie> MoviesList = new ArrayList<>();
     private static final String BASE_URL ="https://api.themoviedb.org";
     private static final int PAGE = 1;
     private static final String API_KEY = "6fe60bcb808a908fa0c56969a548ff34";
     private static final String LANGUAGE = "en-US";
-    private static  String CATEGORY = "popular";
+    private static  String CATEGORY = "top_rated";
     private static final String TAG = "MainActivity";
     private MoviesAdapter mAdapter;
-     @BindView(R.id.drawer_layout) DrawerLayout drawer;
-     @BindView(R.id.movie_gallery_rv) RecyclerView MovieScreenRv;
-     @BindView(R.id.nav_view) NavigationView navigationView;
-     @Override
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.movie_gallery_rv)
+    RecyclerView MovieScreenRv;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -68,16 +54,16 @@ public class MainActivity extends AppCompatActivity
 
 
         setSupportActionBar(toolbar);
-       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-       // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-       // MovieScreenRv = (RecyclerView) findViewById(R.id.movie_gallery_rv);
+        // MovieScreenRv = (RecyclerView) findViewById(R.id.movie_gallery_rv);
 
-       Retrofit retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -89,24 +75,24 @@ public class MainActivity extends AppCompatActivity
                 MovieResults results = response.body();
                 List<MovieResults.ResultsBean> listOfMovies = results.getResults();
                 ArrayList<Movie> newMovies = new ArrayList<>();
-               for(int i =0; i<listOfMovies.size(); i++){
+                for(int i =0; i<listOfMovies.size(); i++){
 
-                   Movie newMovie = new  Movie(
-                           listOfMovies.get(i).getTitle(),
-                           listOfMovies.get(i).getPoster_path(),
-                           listOfMovies.get(i).getOverview(),
-                           listOfMovies.get(i).getVote_average(),
-                           listOfMovies.get(i).getRelease_date());
+                    Movie newMovie = new  Movie(
+                            listOfMovies.get(i).getTitle(),
+                            listOfMovies.get(i).getPoster_path(),
+                            listOfMovies.get(i).getOverview(),
+                            listOfMovies.get(i).getVote_average(),
+                            listOfMovies.get(i).getRelease_date() );
 
                     newMovies.add(newMovie);
 
-               }
-               mAdapter.setMovieList(newMovies);
+                }
+                mAdapter.setMovieList(newMovies);
 
             }
             @Override
             public void onFailure(Call<MovieResults> call, Throwable t) {
-            t.printStackTrace();
+                t.printStackTrace();
             }
         });
 
@@ -125,10 +111,9 @@ public class MainActivity extends AppCompatActivity
         }
         return 2;
     }
-
     @Override
     public void onBackPressed() {
-       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -154,11 +139,8 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-
-
-       // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

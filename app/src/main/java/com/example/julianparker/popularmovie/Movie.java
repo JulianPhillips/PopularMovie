@@ -4,13 +4,14 @@ public class Movie  {
     private String title;
     private String poster;
     private String description;
-    private String backdrop;
-
-    public Movie(String Title, String Poster, String Description, String Backdrop){
+    private Double voteAverage;
+    private String releaseDate;
+    public Movie(String Title, String Poster, String Description, Double VoteAverage, String ReleaseDate){
         title = Title;
         poster = Poster;
         description = Description;
-        backdrop = Backdrop;
+        releaseDate = ReleaseDate;
+        voteAverage = VoteAverage;
     }
     public String getTitle() {
         return title;
@@ -21,7 +22,7 @@ public class Movie  {
     }
 
     public String getPoster() {
-      return poster;
+    return "http://image.tmdb.org/t/p/w185"+poster;
     }
 
     public void setPoster(String poster) {
@@ -36,12 +37,19 @@ public class Movie  {
         this.description = description;
     }
 
-    public String getBackdrop() {
-        return backdrop;
+    public Double getVoteAverage() {
+        return voteAverage;
     }
 
-    public void setBackdrop(String backdrop) {
-        this.backdrop = backdrop;
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
+    public String getReleaseDate(){
+        return releaseDate;
+    }
+
+    public void setReleaseDate(java.lang.String x) {
+        releaseDate = x;
+    }
 }
