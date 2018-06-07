@@ -1,11 +1,17 @@
 package com.example.julianparker.popularmovie;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class Movie  {
-    private String title;
-    private String poster;
-    private String description;
-    private Double voteAverage;
-    private String releaseDate;
+     String title;
+     String poster;
+     String description;
+     Double voteAverage;
+     String releaseDate;
+     public Movie(){
+
+     }
     public Movie(String Title, String Poster, String Description, Double VoteAverage, String ReleaseDate){
         title = Title;
         poster = Poster;

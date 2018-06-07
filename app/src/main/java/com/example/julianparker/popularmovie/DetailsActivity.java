@@ -1,11 +1,16 @@
 package com.example.julianparker.popularmovie;
 
+import android.content.Intent;
+import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,30 +33,24 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
 
-        if(getIntent().hasExtra("POSTERURL") &&
-                getIntent().hasExtra("TITLE")&&
-                getIntent().hasExtra("DESCRIPTION")&&
-                getIntent().hasExtra("VOTERAVG")&&
-                getIntent().hasExtra("RELEASEDATE")){
 
-            String releaseDate = getIntent().getStringExtra("RELEASEDATE");
-            Double voterAvg = getIntent().getDoubleExtra("VOTERAVG",0.0);
-            String posterUrl = getIntent().getStringExtra("POSTERURL");
-            String title = getIntent().getStringExtra("TITLE");
-            String description = getIntent().getStringExtra("DESCRIPTION");
-            setUpActivity(posterUrl,title,description, releaseDate, voterAvg);
-        }
 
+            Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("MOVIE"));
+            setUpActivity(movie);
 
 
     }
 
-    private void setUpActivity(String posterUrl, String title, String description, String releasedate, Double voteravg) {
-        Description.setText("Plot: "+description);
-        Title.setText("Title: "+title);
-        VoterAvg.setText("Voter Average: "+voteravg.toString());
-        ReleaseDate.setText("Release Date: "+releasedate);
-        Picasso.get().load(posterUrl)
+
+
+
+
+    private void setUpActivity(Movie movie) {
+        Description.setText("Plot: "+movie.getDescription());
+        Title.setText("Title: "+movie.getTitle());
+        VoterAvg.setText("Voter Average: "+movie.getVoteAverage().toString());
+        ReleaseDate.setText("Release Date: "+movie.getReleaseDate());
+        Picasso.get().load(movie.getPoster())
                 .placeholder(R.color.colorAccent)
                 .into(Image);
     }

@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,12 +78,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         @Override
         public void onClick(View v) {
+            Movie newMovie = mMovieList.get(getAdapterPosition());
             Intent intent  = new Intent(mContext, DetailsActivity.class);
-            intent.putExtra("POSTERURL", mMovieList.get(getAdapterPosition()).getPoster());
-            intent.putExtra("TITLE", mMovieList.get(getAdapterPosition()).getTitle());
-            intent.putExtra("DESCRIPTION",mMovieList.get(getAdapterPosition()).getDescription());
-            intent.putExtra("VOTERAVG", mMovieList.get(getAdapterPosition()).getVoteAverage());
-            intent.putExtra("RELEASEDATE", mMovieList.get(getAdapterPosition()).getReleaseDate());
+
+            intent.putExtra("MOVIE", Parcels.wrap(newMovie));
             mContext.startActivity(intent);
         }
     }

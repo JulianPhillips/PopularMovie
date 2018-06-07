@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,getSpan());
         MovieScreenRv.setLayoutManager(layoutManager);
         MovieScreenRv.setHasFixedSize(true);
         mAdapter = new MoviesAdapter(this,MoviesList);
