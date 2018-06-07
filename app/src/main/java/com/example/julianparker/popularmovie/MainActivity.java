@@ -87,12 +87,14 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
                 MovieResults results = response.body();
                 List<MovieResults.ResultsBean> listOfMovies = results.getResults();
+                ArrayList<Movie> newMovies = new ArrayList<>();
                for(int i =0; i<listOfMovies.size(); i++){
 
                    Movie newMovie = new  Movie(listOfMovies.get(i).getTitle(), listOfMovies.get(i).getPoster_path(), listOfMovies.get(i).getOverview(), listOfMovies.get(i).getBackdrop_path());
+                    newMovies.add(newMovie);
 
-                    MoviesList.add(newMovie);
                }
+               mAdapter.setMovieList(newMovies);
 
             }
             @Override
@@ -107,7 +109,6 @@ public class MainActivity extends AppCompatActivity
         MovieScreenRv.setLayoutManager(layoutManager);
         MovieScreenRv.setHasFixedSize(true);
         mAdapter = new MoviesAdapter(this,MoviesList);
-        mAdapter.setMovieList(MoviesList);
         MovieScreenRv.setAdapter(mAdapter);
     }
 
