@@ -83,7 +83,8 @@ public class top_rated extends AppCompatActivity
                             listOfMovies.get(i).getPoster_path(),
                             listOfMovies.get(i).getOverview(),
                             listOfMovies.get(i).getVote_average(),
-                            listOfMovies.get(i).getRelease_date() );
+                            listOfMovies.get(i).getRelease_date(),
+                            listOfMovies.get(i).getId());
 
                     newMovies.add(newMovie);
 

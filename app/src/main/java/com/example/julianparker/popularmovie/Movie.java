@@ -1,23 +1,34 @@
 package com.example.julianparker.popularmovie;
 
+
+
 import org.parceler.Parcel;
 
+//@Entity(primaryKeys = "Id", tableName = "Movie")
 @Parcel
 public class Movie  {
+    // @ColumnInfo(name = "title")
      String title;
+    // @ColumnInfo(name = "poster")
      String poster;
+    // @ColumnInfo(name="description")
      String description;
+    // @ColumnInfo(name = "voteAverage")
      Double voteAverage;
+    // @ColumnInfo(name = "releaseDate")
      String releaseDate;
+     int Id;
+
      public Movie(){
 
      }
-    public Movie(String Title, String Poster, String Description, Double VoteAverage, String ReleaseDate){
+    public Movie(String Title, String Poster, String Description, Double VoteAverage, String ReleaseDate, int ID){
         title = Title;
         poster = Poster;
         description = Description;
         releaseDate = ReleaseDate;
         voteAverage = VoteAverage;
+        Id = ID;
     }
     public String getTitle() {
         return title;
@@ -58,4 +69,11 @@ public class Movie  {
     public void setReleaseDate(java.lang.String x) {
         releaseDate = x;
     }
+    public void setId(int x){
+         Id = x;
+    }
+    public int getId(){
+         return Id;
+    }
+
 }

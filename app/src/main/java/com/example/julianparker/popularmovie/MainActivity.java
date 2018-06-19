@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Movie> MoviesList = new ArrayList<>();
     private static final String BASE_URL ="https://api.themoviedb.org";
     private static final int PAGE = 1;
-    private static final String API_KEY = "6fe60bcb808a908fa0c56969a548ff34";
+    private static  String API_KEY = " ";
     private static final String LANGUAGE = "en-US";
     private static  String CATEGORY = "popular";
     private static final String TAG = "MainActivity";
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        API_KEY= getResources().getString(R.string.API_KEY);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
        // MovieScreenRv = (RecyclerView) findViewById(R.id.movie_gallery_rv);
 
+
+         Log.d(TAG,"App is starting on main menu");
        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity
         call.enqueue(new Callback<MovieResults>() {
             @Override
             public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+                Log.d(TAG,"The OnResponse was called");
                 MovieResults results = response.body();
                 List<MovieResults.ResultsBean> listOfMovies = results.getResults();
                 ArrayList<Movie> newMovies = new ArrayList<>();
@@ -96,7 +99,9 @@ public class MainActivity extends AppCompatActivity
                            listOfMovies.get(i).getPoster_path(),
                            listOfMovies.get(i).getOverview(),
                            listOfMovies.get(i).getVote_average(),
-                           listOfMovies.get(i).getRelease_date());
+                           listOfMovies.get(i).getRelease_date(),
+                           listOfMovies.get(i).getId()
+                   );
 
                     newMovies.add(newMovie);
 

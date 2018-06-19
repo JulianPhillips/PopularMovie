@@ -11,9 +11,4 @@
     tools:showIn="@layout/app_bar_main">
 
 
-
-
-
-
-
 </android.support.v7.widget.RecyclerView>
