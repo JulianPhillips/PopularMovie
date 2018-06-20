@@ -1,7 +1,9 @@
 package com.example.julianparker.popularmovie;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.julianparker.popularmovie.Database.AppDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -35,6 +38,10 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
     private static final String REVIEWS ="reviews";
     private static final int PAGE = 1;
+    private boolean AlreadyAFavorite = false;
+
+    @BindView(R.id.Favorite)
+    Button Favorite;
 
     @BindView(R.id.Reviews)
     TextView Reviews;
@@ -74,6 +81,50 @@ public class DetailsActivity extends AppCompatActivity {
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
 
         Call<TrailerResults> TrailerCall = myInterface.getTrailers(CATEGORY, API_KEY, LANGUAGE, APPEND_TO_RESPONSE);
+        Log.d(TAG,"About to call AppDatanase");
+
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+
+        Log.d(TAG,"AppDatabase was built");
+
+
+        for(int i =0; i<db.movieDao().getAll().size(); i++){
+            if(db.movieDao().getAll().get(i).Id == movie.Id ){
+                AlreadyAFavorite = true;
+                Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
+            }
+        }
+
+
+        Favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AlreadyAFavorite == true){
+
+                    AlreadyAFavorite = false;
+                    Favorite.setBackground(getDrawable(R.drawable.ic_favorite_not));
+                    Log.d(TAG,"The icon has been changed");
+                    db.movieDao().delete(movie);
+                    Log.d(TAG,"The movie has been deleted:"+db.movieDao().getAll().get(0).title);
+
+                    db.close();
+
+                }
+                else
+                {
+
+                    AlreadyAFavorite = true;
+
+                    db.movieDao().insert(movie);
+                    Log.d(TAG,"The movie has been added");
+                    Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
+                    Log.d(TAG,"The icon has been changed");
+                    db.close();
+                }
+
+            }
+        });
 
         TrailerCall.enqueue(new Callback<TrailerResults>() {
                          @Override
@@ -153,6 +204,13 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        super.onBackPressed();
 
     }
 }

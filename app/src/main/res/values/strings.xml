@@ -10,4 +10,6 @@
     <string name="title_activity_top_rated">top_rated</string>
     <string name="API_KEY">6fe60bcb808a908fa0c56969a548ff34</string>
     <string name="TrailerName">Check Out The Trailer Video</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="nav_header_title">Android Studio</string>
 </resources>

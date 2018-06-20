@@ -25,6 +25,10 @@
         <activity
             android:name=".top_rated"
             android:label="@string/title_activity_top_rated"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FavoritesActivity"
+            android:label="@string/title_activity_favorites"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
