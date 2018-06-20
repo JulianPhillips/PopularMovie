@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -38,7 +39,7 @@ public class top_rated extends AppCompatActivity
     private static final String API_KEY = "6fe60bcb808a908fa0c56969a548ff34";
     private static final String LANGUAGE = "en-US";
     private static  String CATEGORY = "top_rated";
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "top_rated";
     private MoviesAdapter mAdapter;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.movie_gallery_rv)
@@ -85,10 +86,11 @@ public class top_rated extends AppCompatActivity
                             listOfMovies.get(i).getVote_average(),
                             listOfMovies.get(i).getRelease_date(),
                             listOfMovies.get(i).getId());
-
+                    Log.d(TAG,"added " + listOfMovies.get(i).getPoster_path());
                     newMovies.add(newMovie);
 
                 }
+
                 mAdapter.setMovieList(newMovies);
 
             }

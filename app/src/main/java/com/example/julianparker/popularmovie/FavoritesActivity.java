@@ -1,9 +1,12 @@
 package com.example.julianparker.popularmovie;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,19 +38,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FavoritesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
-    private ArrayList<Movie> MoviesList = new ArrayList<Movie>();
-    private static final String TAG = "FavoritesActivity";
-    private MoviesAdapter mAdapter ;
+    private ArrayList<Movie> MoviesList = new ArrayList<>();
+    private static final String BASE_URL ="https://api.themoviedb.org";
+    private static final int PAGE = 1;
+    private static  String API_KEY = " ";
+    private static final String LANGUAGE = "en-US";
+    private static  String CATEGORY = "popular";
+    private static final String TAG = "MainActivity";
+    private MoviesAdapter mAdapter;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.movie_gallery_rv)
-    RecyclerView MovieScreenRv;
+    @BindView(R.id.movie_gallery_rv) RecyclerView MovieScreenRv;
     @BindView(R.id.nav_view) NavigationView navigationView;
-
+    private MovieViewModel mModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        API_KEY= getResources().getString(R.string.API_KEY);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -63,26 +70,29 @@ public class FavoritesActivity extends AppCompatActivity
         // MovieScreenRv = (RecyclerView) findViewById(R.id.movie_gallery_rv);
 
 
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+        mModel = ViewModelProviders.of(this).get(MovieViewModel.class);
 
-        List<Movie> listOfMovies = db.movieDao().getAll();
-        ArrayList<Movie> newMovies = new ArrayList<>();
-        for(int i =0; i<listOfMovies.size(); i++){
 
-            Movie newMovie = new  Movie(
-                    listOfMovies.get(i).getTitle(),
-                    listOfMovies.get(i).getPoster(),
-                    listOfMovies.get(i).getDescription(),
-                    listOfMovies.get(i).getVoteAverage(),
-                    listOfMovies.get(i).getReleaseDate(),
-                    listOfMovies.get(i).getId());
+        // Create the observer which updates the UI.
+        final Observer<Movie> nameObserver = new Observer<Movie>() {
+            @Override
+            public void onChanged(@Nullable final Movie newMovie) {
+                // Update the UI, in this case, a adapter
+                ArrayList<Movie> x = new ArrayList<>();
 
-            newMovies.add(newMovie);
 
-        }
-        MoviesList = newMovies;
-        mAdapter.setMovieList(newMovies);
+                    x.add(newMovie);
+
+
+                mAdapter.setMovieList(x);
+            }
+        };
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+       // mModel.getCurrentMovie().observe(this, nameObserver);
+
+
+
 
 
         GridLayoutManager layoutManager = new GridLayoutManager(this,getSpan());
@@ -108,27 +118,9 @@ public class FavoritesActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.favorites, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

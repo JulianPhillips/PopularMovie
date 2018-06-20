@@ -81,7 +81,7 @@ public class DetailsActivity extends AppCompatActivity {
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
 
         Call<TrailerResults> TrailerCall = myInterface.getTrailers(CATEGORY, API_KEY, LANGUAGE, APPEND_TO_RESPONSE);
-        Log.d(TAG,"About to call AppDatanase");
+        Log.d(TAG,"About to call AppDatabase");
 
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "database-name").allowMainThreadQueries().build();
@@ -191,7 +191,7 @@ public class DetailsActivity extends AppCompatActivity {
         Title.setText("Title: " + movie.getTitle());
         VoterAvg.setText("Voter Average: " + movie.getVoteAverage().toString());
         ReleaseDate.setText("Release Date: " + movie.getReleaseDate());
-        Picasso.get().load(movie.getPoster())
+        Picasso.get().load("http://image.tmdb.org/t/p/w185"+movie.getPoster())
                 .placeholder(R.color.colorAccent)
                 .into(Image);
         Video.setOnClickListener(new View.OnClickListener() {

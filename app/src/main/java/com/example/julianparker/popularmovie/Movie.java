@@ -42,7 +42,7 @@ public class Movie  {
     }
 
     public String getPoster() {
-    return "http://image.tmdb.org/t/p/w185"+poster;
+    return poster;
     }
 
     public void setPoster(String poster) {
