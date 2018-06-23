@@ -1,5 +1,6 @@
 package com.example.julianparker.popularmovie;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.net.Uri;
@@ -61,35 +62,25 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
-
-
         final Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("MOVIE"));
-
         int CATEGORY = movie.getId();
         String API_KEY = getResources().getString(R.string.API_KEY);
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
 
         Call<TrailerResults> TrailerCall = myInterface.getTrailers(CATEGORY, API_KEY, LANGUAGE, APPEND_TO_RESPONSE);
         Log.d(TAG,"About to call AppDatabase");
-
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").allowMainThreadQueries().build();
-
+                AppDatabase.class, "database-name").build();
         Log.d(TAG,"AppDatabase was built");
 
 
-        for(int i =0; i<db.movieDao().getAll().size(); i++){
+        for(int i =0; i< db.movieDao().getAll().size(); i++){
             if(db.movieDao().getAll().get(i).Id == movie.Id ){
                 AlreadyAFavorite = true;
                 Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
@@ -100,31 +91,34 @@ public class DetailsActivity extends AppCompatActivity {
         Favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AlreadyAFavorite == true){
 
-                    AlreadyAFavorite = false;
-                    Favorite.setBackground(getDrawable(R.drawable.ic_favorite_not));
-                    Log.d(TAG,"The icon has been changed");
-                    db.movieDao().delete(movie);
-                    Log.d(TAG,"The movie has been deleted:"+db.movieDao().getAll().get(0).title);
 
-                    db.close();
+                    new Thread(new Runnable() {
+                        public void run() {
+                            // a potentially  time consuming task
+                            if (AlreadyAFavorite == true){
 
-                }
-                else
-                {
+                                AlreadyAFavorite = false;
+                                Favorite.setBackground(getDrawable(R.drawable.ic_favorite_not));
+                                Log.d(TAG,"The icon has been changed");
+                                db.movieDao().delete(movie);
+                                Log.d(TAG,"The movie has been deleted:"+db.movieDao().getAll().get(0).title);
+                                db.close();
 
-                    AlreadyAFavorite = true;
-
-                    db.movieDao().insert(movie);
-                    Log.d(TAG,"The movie has been added");
-                    Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
-                    Log.d(TAG,"The icon has been changed");
-                    db.close();
-                }
-
-            }
-        });
+                            }
+                            else
+                            {
+                                AlreadyAFavorite = true;
+                                db.movieDao().insert(movie);
+                                Log.d(TAG,"The movie has been added");
+                                Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
+                                Log.d(TAG,"The icon has been changed");
+                                db.close();
+                            }
+                                }
+                            }).start();
+                        }
+                    });
 
         TrailerCall.enqueue(new Callback<TrailerResults>() {
                          @Override

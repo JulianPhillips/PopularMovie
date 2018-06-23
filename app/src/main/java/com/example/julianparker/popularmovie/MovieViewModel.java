@@ -21,12 +21,9 @@ public class MovieViewModel extends ViewModel {
     public LiveData<List<Movie>> getMovieDataList() {
         Log.i(TAG, "getMovieDataList: " + movieDataList.getValue());
         if (movieDataList.getValue() == null) {
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    Log.i(TAG, "run: ");
-                    fetchMovieData();
-                }
+            AsyncTask.execute(() -> {
+                Log.i(TAG, "run: ");
+                fetchMovieData();
             });
         }
         return movieDataList;
@@ -35,7 +32,7 @@ public class MovieViewModel extends ViewModel {
 
     private void fetchMovieData() {
 
-       
+
     }
 
 
