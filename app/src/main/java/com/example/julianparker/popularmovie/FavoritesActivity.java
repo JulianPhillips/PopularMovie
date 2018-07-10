@@ -49,7 +49,7 @@ public class FavoritesActivity extends AppCompatActivity
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.movie_gallery_rv) RecyclerView MovieScreenRv;
     @BindView(R.id.nav_view) NavigationView navigationView;
-    private MovieViewModel mModel;
+    private MainViewModel mModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,14 +77,12 @@ public class FavoritesActivity extends AppCompatActivity
         MovieScreenRv.setHasFixedSize(true);
         mAdapter = new MoviesAdapter(this,MoviesList);
         MovieScreenRv.setAdapter(mAdapter);
+
+
+        setupViewModel();
     }
 
-    private void retrieveTasks(){
 
-
-
-
-    }
 
     private int getSpan() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -102,6 +100,23 @@ public class FavoritesActivity extends AppCompatActivity
         }
     }
 
+
+    private void setupViewModel() {
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                if(favs.size()>0) {
+                    favMovs.clear();
+                    favMovs = favs;
+                }
+                for (int i=0; i<favMovs.size(); i++) {
+                    Log.d(TAG,favMovs.get(i).getTitle());
+                }
+                loadMovies();
+            }
+        }) ;
+    }
 
 
 

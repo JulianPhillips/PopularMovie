@@ -1,10 +1,8 @@
 package com.example.julianparker.popularmovie;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +16,6 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String REVIEWS ="reviews";
     private static final int PAGE = 1;
     private boolean AlreadyAFavorite = false;
+   // private DatabaseHelper databaseHelper;
 
     @BindView(R.id.Favorite)
     Button Favorite;
@@ -64,6 +62,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
+
         final Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("MOVIE"));
         int CATEGORY = movie.getId();
         String API_KEY = getResources().getString(R.string.API_KEY);
@@ -80,7 +79,9 @@ public class DetailsActivity extends AppCompatActivity {
         Log.d(TAG,"AppDatabase was built");
 
 
-        for(int i =0; i< db.movieDao().getAll().size(); i++){
+
+
+        for(int i =0; i< db.movieDao().getAll().; i++){
             if(db.movieDao().getAll().get(i).Id == movie.Id ){
                 AlreadyAFavorite = true;
                 Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
@@ -100,10 +101,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                                 AlreadyAFavorite = false;
                                 Favorite.setBackground(getDrawable(R.drawable.ic_favorite_not));
-                                Log.d(TAG,"The icon has been changed");
-                                db.movieDao().delete(movie);
-                                Log.d(TAG,"The movie has been deleted:"+db.movieDao().getAll().get(0).title);
-                                db.close();
+
 
                             }
                             else
