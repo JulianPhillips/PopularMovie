@@ -36,11 +36,14 @@ public class DetailsActivity extends AppCompatActivity {
     private static final int PAGE = 1;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     private boolean AlreadyAFavorite = false;
    // private DatabaseHelper databaseHelper;
 
     @BindView(R.id.Favorite)
     Button Favorite;
+=======
+>>>>>>> parent of 655b213... Update
 =======
 >>>>>>> parent of 655b213... Update
 =======
@@ -77,6 +80,7 @@ public class DetailsActivity extends AppCompatActivity {
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
 
         Call<TrailerResults> TrailerCall = myInterface.getTrailers(CATEGORY, API_KEY, LANGUAGE, APPEND_TO_RESPONSE);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         Log.d(TAG,"About to call AppDatabase");
@@ -123,6 +127,8 @@ public class DetailsActivity extends AppCompatActivity {
                             }).start();
                         }
                     });
+=======
+>>>>>>> parent of 655b213... Update
 =======
 >>>>>>> parent of 655b213... Update
 =======
