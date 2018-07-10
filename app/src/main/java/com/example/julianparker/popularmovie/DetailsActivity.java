@@ -1,6 +1,5 @@
 package com.example.julianparker.popularmovie;
 
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.julianparker.popularmovie.Database.AppDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -36,11 +34,14 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
     private static final String REVIEWS ="reviews";
     private static final int PAGE = 1;
+<<<<<<< HEAD
     private boolean AlreadyAFavorite = false;
    // private DatabaseHelper databaseHelper;
 
     @BindView(R.id.Favorite)
     Button Favorite;
+=======
+>>>>>>> parent of 655b213... Update
 
     @BindView(R.id.Reviews)
     TextView Reviews;
@@ -73,6 +74,7 @@ public class DetailsActivity extends AppCompatActivity {
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
 
         Call<TrailerResults> TrailerCall = myInterface.getTrailers(CATEGORY, API_KEY, LANGUAGE, APPEND_TO_RESPONSE);
+<<<<<<< HEAD
         Log.d(TAG,"About to call AppDatabase");
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "database-name").build();
@@ -117,6 +119,8 @@ public class DetailsActivity extends AppCompatActivity {
                             }).start();
                         }
                     });
+=======
+>>>>>>> parent of 655b213... Update
 
         TrailerCall.enqueue(new Callback<TrailerResults>() {
                          @Override
@@ -196,13 +200,6 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        super.onBackPressed();
 
     }
 }

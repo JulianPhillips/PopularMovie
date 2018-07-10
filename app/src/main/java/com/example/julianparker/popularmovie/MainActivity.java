@@ -156,12 +156,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_popular) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+
         }
-        else
-            if(id == R.id.nav_favorite){
-            Intent intent = new Intent(this,FavoritesActivity.class);
-            startActivity(intent);
-            }
 
 
 

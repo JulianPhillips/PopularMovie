@@ -2,23 +2,20 @@ package com.example.julianparker.popularmovie;
 
 
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-
 import org.parceler.Parcel;
 
-@Entity(primaryKeys = "Id", tableName = "Movie")
+//@Entity(primaryKeys = "Id", tableName = "Movie")
 @Parcel
 public class Movie  {
-     @ColumnInfo(name = "title")
+    // @ColumnInfo(name = "title")
      String title;
-     @ColumnInfo(name = "poster")
+    // @ColumnInfo(name = "poster")
      String poster;
-     @ColumnInfo(name="description")
+    // @ColumnInfo(name="description")
      String description;
-     @ColumnInfo(name = "voteAverage")
+    // @ColumnInfo(name = "voteAverage")
      Double voteAverage;
-     @ColumnInfo(name = "releaseDate")
+    // @ColumnInfo(name = "releaseDate")
      String releaseDate;
      int Id;
 
