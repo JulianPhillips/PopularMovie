@@ -44,7 +44,7 @@ public class FavoritesActivity extends AppCompatActivity
     private static  String API_KEY = " ";
     private static final String LANGUAGE = "en-US";
     private static  String CATEGORY = "popular";
-    private static final String TAG = "FavoriteActivity";
+    private static final String TAG = "MainActivity";
     private MoviesAdapter mAdapter;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.movie_gallery_rv) RecyclerView MovieScreenRv;
@@ -70,6 +70,43 @@ public class FavoritesActivity extends AppCompatActivity
         // MovieScreenRv = (RecyclerView) findViewById(R.id.movie_gallery_rv);
 
 
+        mModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+
+
+<<<<<<< HEAD
+        GridLayoutManager layoutManager = new GridLayoutManager(this,getSpan());
+        MovieScreenRv.setLayoutManager(layoutManager);
+        MovieScreenRv.setHasFixedSize(true);
+        mAdapter = new MoviesAdapter(this,MoviesList);
+        MovieScreenRv.setAdapter(mAdapter);
+=======
+        // Create the observer which updates the UI.
+        final Observer<Movie> nameObserver = new Observer<Movie>() {
+            @Override
+            public void onChanged(@Nullable final Movie newMovie) {
+                // Update the UI, in this case, a adapter
+                ArrayList<Movie> x = new ArrayList<>();
+
+
+                    x.add(newMovie);
+
+>>>>>>> parent of 40ad742... LiveData Still not implemented
+
+                mAdapter.setMovieList(x);
+            }
+        };
+
+<<<<<<< HEAD
+        setupViewModel();
+    }
+
+
+=======
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+       // mModel.getCurrentMovie().observe(this, nameObserver);
+
+
+
 
 
         GridLayoutManager layoutManager = new GridLayoutManager(this,getSpan());
@@ -77,12 +114,8 @@ public class FavoritesActivity extends AppCompatActivity
         MovieScreenRv.setHasFixedSize(true);
         mAdapter = new MoviesAdapter(this,MoviesList);
         MovieScreenRv.setAdapter(mAdapter);
-
-
-        setupViewModel();
     }
-
-
+>>>>>>> parent of 40ad742... LiveData Still not implemented
 
     private int getSpan() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

@@ -1,5 +1,9 @@
 package com.example.julianparker.popularmovie;
 
+<<<<<<< HEAD
+=======
+import android.arch.persistence.room.Room;
+>>>>>>> parent of 40ad742... LiveData Still not implemented
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -67,16 +71,26 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 40ad742... LiveData Still not implemented
         final Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("MOVIE"));
+
         int CATEGORY = movie.getId();
         String API_KEY = getResources().getString(R.string.API_KEY);
+
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         ApiInterface myInterface = retrofit.create(ApiInterface.class);
 
         Call<TrailerResults> TrailerCall = myInterface.getTrailers(CATEGORY, API_KEY, LANGUAGE, APPEND_TO_RESPONSE);
@@ -84,14 +98,20 @@ public class DetailsActivity extends AppCompatActivity {
 <<<<<<< HEAD
 <<<<<<< HEAD
         Log.d(TAG,"About to call AppDatabase");
+
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "database-name").build();
+                AppDatabase.class, "database-name").allowMainThreadQueries().build();
+
         Log.d(TAG,"AppDatabase was built");
 
 
+<<<<<<< HEAD
 
 
         for(int i =0; i< db.movieDao().getAll().; i++){
+=======
+        for(int i =0; i<db.movieDao().getAll().size(); i++){
+>>>>>>> parent of 40ad742... LiveData Still not implemented
             if(db.movieDao().getAll().get(i).Id == movie.Id ){
                 AlreadyAFavorite = true;
                 Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
@@ -102,8 +122,23 @@ public class DetailsActivity extends AppCompatActivity {
         Favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (AlreadyAFavorite == true){
 
+                    AlreadyAFavorite = false;
+                    Favorite.setBackground(getDrawable(R.drawable.ic_favorite_not));
+                    Log.d(TAG,"The icon has been changed");
+                    db.movieDao().delete(movie);
+                    Log.d(TAG,"The movie has been deleted:"+db.movieDao().getAll().get(0).title);
 
+                    db.close();
+
+                }
+                else
+                {
+
+                    AlreadyAFavorite = true;
+
+<<<<<<< HEAD
                     new Thread(new Runnable() {
                         public void run() {
                             // a potentially  time consuming task
@@ -133,6 +168,17 @@ public class DetailsActivity extends AppCompatActivity {
 >>>>>>> parent of 655b213... Update
 =======
 >>>>>>> parent of 655b213... Update
+=======
+                    db.movieDao().insert(movie);
+                    Log.d(TAG,"The movie has been added");
+                    Favorite.setBackground(getDrawable(R.drawable.ic_favorite));
+                    Log.d(TAG,"The icon has been changed");
+                    db.close();
+                }
+
+            }
+        });
+>>>>>>> parent of 40ad742... LiveData Still not implemented
 
         TrailerCall.enqueue(new Callback<TrailerResults>() {
                          @Override
